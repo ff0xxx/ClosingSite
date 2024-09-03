@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Доска объявлений</title>
+</head>
+<body>
+<h1>Сегодня в продаже:</h1>
+{% for c in clth %}
+    <div>
+    <h2>{{ c.title }}</h2>
+    <p>{{ c.desc }}</p>
+    <p>Цена: {{ c.price }} ₽</p>
+        <button>Купить</button>
+    {% endfor %}
+    </div>
+</body>
+</html>
