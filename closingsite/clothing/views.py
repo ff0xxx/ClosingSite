@@ -9,12 +9,12 @@ from .forms import ClothingForm
 
 
 def index(request):
-    categories = Categories.objects.all()
+    # categories = Categories.objects.all()
 
     context = {
         'title': 'Home',
         'content': 'Магазин мебели HOME',
-        'categories': categories,
+        # 'categories': categories,
     }
     return render(request, 'clothing/index.html', context)
 
