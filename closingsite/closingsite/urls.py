@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('clothing.urls', namespace='clothing')),
     path('catalog/', include('goods.urls', namespace='catalog')),
+    path('user/', include('users.urls', namespace='user')),
 
     path('add/', views.ClothingCreateView.as_view(), name='add')
 ]
