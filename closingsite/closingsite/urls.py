@@ -12,7 +12,8 @@ urlpatterns = [
     path('catalog/', include('goods.urls', namespace='catalog')),
     path('user/', include('users.urls', namespace='user')),
 
-    path('add/', views.ClothingCreateView.as_view(), name='add')
+    path('add/', views.ClothingCreateView.as_view(), name='add'),
+    path('cart/', include('carts.urls', namespace='cart'))
 ]
 
 if settings.DEBUG:

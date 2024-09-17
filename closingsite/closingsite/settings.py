@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'clothing.apps.ClothingConfig',
     'goods',
     'users',
+    'carts'
 ]
 
 MIDDLEWARE = [
