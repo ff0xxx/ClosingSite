@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.urls import reverse
 
 
 class Categories(models.Model):
@@ -35,9 +34,14 @@ class Products(models.Model):
     def __str__(self):
         return f"{self.name} Количество - {self.quantity}"
 
+    def get_absolute_url(self):
+        return reverse("catalog:product", kwargs={'product_slug': self.slug})
+
+    # переопределяет отображение поля user
     def display_id(self):
         return f"{self.id:05}"
 
+    # переопределяет отображение поля product
     def sell_price(self):
         if self.discount:
             return round(self.price*(1-self.discount/100), 2)
