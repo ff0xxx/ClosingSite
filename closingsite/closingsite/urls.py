@@ -3,7 +3,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 from closingsite import settings
-from clothing import views
 
 
 urlpatterns = [
@@ -11,8 +10,8 @@ urlpatterns = [
     path('', include('clothing.urls', namespace='clothing')),
     path('catalog/', include('goods.urls', namespace='catalog')),
     path('user/', include('users.urls', namespace='user')),
-
-    path('cart/', include('carts.urls', namespace='cart'))
+    path('cart/', include('carts.urls', namespace='cart')),
+    path('orders/', include('orders.urls', namespace='orders'))
 ]
 
 if settings.DEBUG:
