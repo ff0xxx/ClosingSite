@@ -1,13 +1,13 @@
-from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
+from django.contrib import auth, messages
 from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
-
 from carts.models import Cart
 from orders.models import Order, OrderItem
-from users.forms import UserLoginForm, UserRegistrationForm, ProfileForm
+
+from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
 
 
 def login(request):
@@ -25,9 +25,13 @@ def login(request):
                 messages.success(request, f"{username}, Вы вошли в аккаунт")
 
                 if session_key:
+                    # delete old authorized user carts
+                    forgot_carts = Cart.objects.filter(user=user)
+                    if forgot_carts.exists():
+                        forgot_carts.delete()
+                    # add new authorized user carts from anonimous session
                     Cart.objects.filter(session_key=session_key).update(user=user)
 
-                # на какую страницу пользователь хотел перейти
                 redirect_page = request.POST.get('next', None)
                 if redirect_page and redirect_page != reverse('user:logout'):
                     return HttpResponseRedirect(request.POST.get('next'))
@@ -56,7 +60,6 @@ def registration(request):
 
             if session_key:
                 Cart.objects.filter(session_key=session_key).update(user=user)
-
             messages.success(request, f"{user.username}, Вы успешно зарегистрированы и вошли в аккаунт")
             return HttpResponseRedirect(reverse('clothing:index'))
     else:
@@ -81,15 +84,10 @@ def profile(request):
         form = ProfileForm(instance=request.user)
 
     orders = Order.objects.filter(user=request.user).prefetch_related(
-
         Prefetch(
-
             "orderitem_set",
-
             queryset=OrderItem.objects.select_related("product"),
-
         )
-
     ).order_by("-id")
 
     context = {
@@ -108,4 +106,4 @@ def users_cart(request):
 def logout(request):
     messages.success(request, f"{request.user.username}, Вы вышли из аккаунта")
     auth.logout(request)
-    return redirect(reverse('clothing:index'))
+    return redirect(reverse('main:index'))
