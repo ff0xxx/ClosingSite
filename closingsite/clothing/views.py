@@ -1,37 +1,23 @@
-from django.http import HttpResponse
-from django.urls import reverse_lazy
-from django.views.generic import ListView
-
-from goods.models import Categories
-from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic import TemplateView
 
 
-def index(request):
-    # categories = Categories.objects.all()
+class IndexView(TemplateView):
+    template_name = 'clothing/index.html'
 
-    context = {
-        'title': 'Home',
-        'content': 'Магазин мебели HOME',
-        # 'categories': categories,
-    }
-    return render(request, 'clothing/index.html', context)
-
-
-# class ClothingList(ListView):
-#     template_name = 'clothing/index.html'
-#     context_object_name = 'clth'
-#
-#     def get_queryset(self):
-#         return ClothingModel.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Home'
+        context['content'] = 'Магазин мебели HOME'
+        return context
 
 
-def about(request):
-    context = {
-        'title': 'О сайте',
-        'content': 'Это сайт магазин-мебели',
-        'text_on_page': 'Смотрите, заказывайте. Поддерживайте экономику.'
-    }
-    return render(request, 'clothing/about.html', context)
+class AboutView(TemplateView):
+    template_name = 'clothing/about.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'О сайте'
+        context['content'] = 'Это сайт магазин-мебели'
+        context['text_on_page'] = 'Смотрите, заказывайте. Поддерживайте экономику.'
+        return context
 

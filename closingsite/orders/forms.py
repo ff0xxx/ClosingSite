@@ -1,9 +1,8 @@
 import re
-
 from django import forms
 
 
-# По приколу сделали форму несвязанную с моделью
+# сделали форму По приколу несвязанную с моделью
 class CreateOrderForm(forms.Form):
 
     first_name = forms.CharField()
@@ -22,7 +21,6 @@ class CreateOrderForm(forms.Form):
             ("1", 'True'),
             ],
         )
-
 
     def clean_phone_number(self):
         data = self.cleaned_data['phone_number']
